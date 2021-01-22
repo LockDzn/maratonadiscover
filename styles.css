@@ -1,10 +1,23 @@
 /* GLOBAL ============================= */
 
-:root {
-    --dark-blue: #363f5f;
+html {
+    --primary: #fff;
+    --background: #f0f2f5;
+    --text-primary: #363f5f;
+    --text-secondary: #969cb3;
     --green: #49aa26;
     --light-green: #3dd705;
     --red: #e92929;
+}
+
+html[data-theme="dark"] {
+    --primary: #464646;
+    --background: #1b1b1b;
+    --text-primary: #f0f2f5;
+    --text-secondary: #fff;
+    --green: #12a454;
+    --light-green: #0bda69;
+    --red: #e83f5b;
 }
 
 * {
@@ -18,7 +31,7 @@ html {
 }
 
 body {
-    background: #f0f2f5;
+    background: var(--background);
     font-family: 'Poppins', sans-serif;
 }
 
@@ -41,11 +54,10 @@ header {
     background: linear-gradient(320deg, #2D4A22 0%, #458e29 100%);
     padding: 2rem 0 10rem;
     text-align: center;
-}
 
-#logo {
-    color: #fff;
-    font-weight: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .container {
@@ -58,7 +70,7 @@ header {
 h2 {
     margin-top: 3.2rem;
     margin-bottom: 0.8rem;
-    color: var(--dark-blue);
+    color: var(--text-primary);
 
     font-weight: 400;
 }
@@ -74,7 +86,7 @@ button {
     width: 100%;
     height: 50px;
 
-    color: #fff;
+    color: var(--text-primary);
     background: var(--green);
 
     padding: 0;
@@ -114,6 +126,10 @@ a:hover {
     opacity: 1;
 }
 
+a.change-theme {
+    margin-top: 0.7rem;
+}
+
 /* BALAnCE ============================= */
 
 #balance {
@@ -121,19 +137,19 @@ a:hover {
 }
 
 #balance h2 {
-    color: #fff;
+    color: var(--text-primary);
     margin-top: 0;
 }
 
 /* CARDS ============================= */
 
 .card {
-    background: #fff;
+    background: var(--primary);
     padding: 1.5rem 2rem;
     border-radius: 0.25rem;
     margin-bottom: 2rem;
 
-    color: var(--dark-blue);
+    color: var(--text-primary);
 }
 
 .card h3 {
@@ -155,7 +171,7 @@ a:hover {
 .card.total {
     background: linear-gradient(320deg, var(--green) 0%, var(--light-green) 100%);
     /* background: var(--green); */
-    color: #fff;
+    color: var(--text-primary);
 }
 
 /* TABLE ============================= */
@@ -168,7 +184,7 @@ a:hover {
 #data-table {
     width: 100%;
     border-spacing: 0 0.5rem;
-    color: #969cb3;
+    color: var(--text-secondary);
 }
 
 table thead tr th:first-child,  
@@ -182,7 +198,7 @@ table tbody tr td:last-child {
 }
 
 table thead th {
-    background: #fff;
+    background: var(--primary);
     font-weight: 400;
     padding: 1rem 2rem;
     text-align: left;
@@ -197,20 +213,20 @@ table tbody tr:hover {
 }
 
 table tbody td {
-    background: #fff;
+    background: var(--primary);
     padding: 1rem 2rem;
 }
 
 td.description {
-    color: var(--dark-blue);
+    color: var(--text-primary);
 }
 
 td.income {
-    color: #12a454;
+    color: var(--green);
 }
 
 td.expense {
-    color: #e92929;
+    color: var(--red);
 }
 
 /* MODAL ============================= */
@@ -240,7 +256,7 @@ td.expense {
 }
 
 .modal {
-    background: #f0f2f5;
+    background: var(--background);
     padding: 2.4rem;
 
     width: 90%;
@@ -290,7 +306,7 @@ input {
 footer {
     text-align: center;
     padding: 4rem 0 2rem;
-    color: var(--dark-blue);
+    color: var(--text-primary);
     opacity: 0.6;
 }
 
