@@ -261,6 +261,14 @@ td.expense {
 
     width: 90%;
     max-width: 500px;
+
+    transition: top .5s;
+    position: relative;
+    top: -555px;
+}
+
+.modal-overlay.active .modal {
+    top: 0;
 }
 
 
