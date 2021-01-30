@@ -7,7 +7,7 @@
 </p>
 
 <div style="display: flex; align-items: center; justify-content: center;">
-    <img  style="width: 80%" src=".github/1400x900.png" />
+    <img  style="width: 80%" src=".github/print.png" />
 </div>
 
 ---
