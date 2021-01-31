@@ -1,11 +1,24 @@
 const Modal = {
-    toggle() {
-        const modal = document.querySelector('.modal-overlay')
+    toggleNewTransaction() {
+        const modal = document.querySelector('#modal-new-transaction')
 
         if (modal.classList.toggle('active')) {
             modal.classList.add('active')
         } else {
             modal.classList.remove('active')
+        }
+    },
+    toggleEditTransaction(index) {
+        const modal = document.querySelector('#modal-edit-transaction')
+        const transactionindex = document.querySelector('#transaction-index')
+
+        if (modal.classList.toggle('active')) {
+            modal.classList.add('active')
+            FormEdit.setInputValues(index)
+            transactionindex.innerHTML = index
+        } else {
+            modal.classList.remove('active')
+            transactionindex.innerHTML = ''
         }
     }
 }
@@ -26,26 +39,22 @@ const Storage = {
 }
 
 const Theme = {
+    html: document.querySelector('html'),
+    themeimg: document.querySelector('.change-theme img'),
+
     dark() {
-        const html = document.querySelector('html')
-        const image = document.querySelector('.change-theme img')
-        image.src = 'assets/sun.svg'
-        html.setAttribute('data-theme', 'dark')
+        this.html.setAttribute('data-theme', 'dark')
+        this.themeimg.src = 'assets/sun.svg'
         Storage.setTheme('dark')
     },
     light() {
-        const html = document.querySelector('html')
-        const image = document.querySelector('.change-theme img')
-        image.src = 'assets/moon.svg'
-        html.setAttribute('data-theme', 'light')
+        this.html.setAttribute('data-theme', 'light')
+        this.themeimg.src = 'assets/moon.svg'
         Storage.setTheme('light')
     },
     set(theme) {
-        const html = document.querySelector('html')
-        const image = document.querySelector('.change-theme img')
-
-        image.src = theme === 'dark' ? 'assets/sun.svg' : 'assets/moon.svg'
-        html.setAttribute('data-theme', theme)
+        this.themeimg.src = theme === 'dark' ? 'assets/sun.svg' : 'assets/moon.svg'
+        this.html.setAttribute('data-theme', theme)
         Storage.setTheme(theme)
     },
     change() {
@@ -63,6 +72,12 @@ const Transaction = {
 
     remove(index) {
         this.all.splice(index, 1)
+        App.reload()
+    },
+
+    edit(newTransaction, indexTransaction) {
+        const transaction = this.all.findIndex((transaction, index) => index == indexTransaction)
+        this.all[transaction] = newTransaction
         App.reload()
     },
 
@@ -116,8 +131,9 @@ const DOM = {
         <td class="description">${transaction.description}</td>
         <td class="${CSSclass}">${amount}</td>
         <td class="date">${transaction.date}</td>
-        <td>
-            <img src="assets/minus.svg" onclick="Transaction.remove(${index})" alt="Remover transação">
+        <td class="buttons">
+            <img class="edit" src="assets/edit.svg" onclick="Modal.toggleEditTransaction(${index})" title="Editar transação" alt="Editar transação" />
+            <img src="assets/minus.svg" onclick="Transaction.remove(${index})"  title="Remover transação" alt="Remover transação">
         </td>
         `
 
@@ -156,10 +172,19 @@ const Utils = {
         value = Number(value) * 100
         return value
     },
+    formatAmountContrary(value) {
+        value = Number(value) / 100
+        return value
+    },
     formatDate(date) {
         const splittedDate = date.split('-')
 
         return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+    },
+    formatDateAmerican(date) {
+        const splittedDate = date.split('/')
+
+        return `${splittedDate[1]}/${splittedDate[0]}/${splittedDate[2]}`
     }
 }
 
@@ -214,7 +239,76 @@ const Form = {
             transaction = this.formatValue()
             Transaction.add(transaction)
             this.clearDate()
-            Modal.toggle()
+            Modal.toggleNewTransaction()
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+}
+
+const FormEdit = {
+    description: document.getElementById('edit-description'),
+    amount: document.getElementById('edit-amount'),
+    date: document.getElementById('edit-date'),
+    transactionindex: document.getElementById('transaction-index'),
+
+    getValues() {
+        return {
+            description: this.description.value,
+            amount: this.amount.value,
+            date: this.date.value,
+        }
+    },
+    validateFields() {
+        const { description, amount, date } = this.getValues()
+
+        if(description.trim() == '' || amount.trim() == '' || date.trim() == '') {
+            throw new Error('Por favor, preencha todos os campos')
+        }
+
+        return {
+            description, 
+            amount,
+            date
+        }
+    },
+    formatValue() {
+        let { description, amount, date } = this.getValues()
+        amount = Utils.formatAmount(amount)
+        date = Utils.formatDate(date)
+
+        return {
+            description,
+            amount,
+            date
+        }
+    },
+    clearDate() {
+        this.description.value = ''
+        this.amount.value = ''
+        this.date.value = ''
+    },
+    setInputValues(index) {
+        Transaction.all.findIndex((transaction, indexTransaction) => {
+            if(indexTransaction == index) {
+                const date = new Date(Utils.formatDateAmerican(transaction.date))
+                const amount = Utils.formatAmountContrary(transaction.amount)
+
+                this.description.value = transaction.description
+                this.amount.value = amount
+                this.date.value = date.toISOString().slice(0,10);
+            }
+        })
+    },
+    submit(event) {
+        event.preventDefault()
+
+        try {
+            this.validateFields()
+            transaction = this.formatValue()
+            Transaction.edit(transaction, this.transactionindex.innerHTML)
+            this.clearDate()
+            Modal.toggleEditTransaction()
         } catch (error) {
             alert(error.message)
         }
@@ -235,5 +329,6 @@ const App = {
         App.init()
     }
 }
+
 Theme.set(Storage.getTheme())
 App.init()
