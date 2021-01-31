@@ -54,7 +54,7 @@
             <section id="transaction">
                 <h2 class="sr-only">Transações</h2>
 
-                <a href="#" onclick="Modal.toggle();" class="button new">+ Nova Transação</a>
+                <a href="#" onclick="Modal.toggleNewTransaction();" class="button new">+ Nova Transação</a>
 
                 <table id="data-table">
                     <thead>
@@ -71,7 +71,8 @@
             </section>
         </main>
 
-        <div class="modal-overlay">
+        <!--  New transaction modal -->
+        <div class="modal-overlay" id="modal-new-transaction">
             <div class="modal">
                 <div id="form">
                     <h2>Nova Transação</h2>
@@ -116,7 +117,62 @@
                         </div>
 
                         <div class="input-group actions">
-                            <a href="#" onclick="Modal.toggle();" class="button cancel">Cancelar</a>
+                            <a href="#" onclick="Modal.toggleNewTransaction();" class="button cancel">Cancelar</a>
+                            <button>Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit transaction modal -->
+        <div class="modal-overlay" id="modal-edit-transaction">
+            <div class="modal">
+                <div id="form">
+                    <h2>Editar Transação</h2>
+                    <span id="transaction-index"></span>
+                    <form action="" onsubmit="FormEdit.submit(event)">
+                        <div class="input-group">
+                            <label class="sr-only" for="description">
+                                Descrição
+                            </label>
+                            <input 
+                                type="text" 
+                                id="edit-description" 
+                                name="description"
+                                placeholder="Descrição"
+                            />
+                        </div>
+
+                        <div class="input-group">
+                            <label class="sr-only" for="amount">
+                                Valor
+                            </label>
+                            <input 
+                                type="number"
+                                step="0.01" 
+                                id="edit-amount" 
+                                name="amount"
+                                placeholder="0,00"
+                            />
+                            <small class="help">
+                                Use o sinal - (negativo) para despesas e , (vírgula) para casas decímais
+                            </small>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="sr-only" for="date">
+                                Data
+                            </label>
+                            <input 
+                                type="date" 
+                                id="edit-date" 
+                                name="date"
+                            />
+                        </div>
+
+                        <div class="input-group actions">
+                            <a href="#" onclick="Modal.toggleEditTransaction();" class="button cancel">Cancelar</a>
                             <button>Salvar</button>
                         </div>
                     </form>
@@ -125,7 +181,9 @@
         </div>
 
         <footer>
-            <p>dev.finance$</p>
+            <a href="http://" target="_blank" rel="noopener noreferrer">
+                dev.finance$
+            </a>
         </footer>
 
 

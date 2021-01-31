@@ -229,6 +229,12 @@ td.expense {
     color: var(--red);
 }
 
+td.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
 /* MODAL ============================= */
 
 .modal-overlay {
@@ -271,6 +277,11 @@ td.expense {
     top: 0;
 }
 
+.modal #transaction-index {
+    display: none;
+    visibility: hidden;
+}
+
 
 /* FORM ============================= */
 
@@ -288,6 +299,8 @@ input {
 
     padding: 0.8rem;
     width: 100%;
+    background: var(--primary);
+    color: var(--text-primary);
 }
 
 .input-group {
@@ -295,7 +308,8 @@ input {
 }
 
 .input-group small {
-    opacity: 0.4;
+    opacity: 0.6;
+    color: var(--text-secondary)
 }
 
 .input-group.actions {
@@ -316,6 +330,25 @@ footer {
     padding: 4rem 0 2rem;
     color: var(--text-primary);
     opacity: 0.6;
+}
+
+footer a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0.4;
+
+    color: var(--text-primary);
+}
+
+footer a:hover {
+    opacity: 1;
+    color: var(--text-primary);
+}
+
+footer a img {
+    margin-right: 1rem;
 }
 
 /* RESPONSIVE ============================= */
