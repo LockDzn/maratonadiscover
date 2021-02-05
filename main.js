@@ -133,9 +133,9 @@ const DOM = {
         <td class="date">${transaction.date}</td>
         <td class="buttons">
             <img class="edit" src="assets/edit.svg" onclick="Modal.toggleEditTransaction(${index})" title="Editar transação" alt="Editar transação" />
-            <img src="assets/minus.svg" onclick="Transaction.remove(${index})"  title="Remover transação" alt="Remover transação">
+            <img class="remove" src="assets/minus.svg" onclick="Transaction.remove(${index})"  title="Remover transação" alt="Remover transação">
         </td>
-        `
+        `;
 
         return html
     },
